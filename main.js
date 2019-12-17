@@ -96,36 +96,50 @@ const ObtenerCantidadDeProductos = (carritoDeCompra) => {
 }
 
 const mostrarProductos = carritoDeCompra => {
-    debugger;
+    
+    // Declaro e inicializo las variables
     let cadena = "";
+    let cadenaFinal = "";
     let cantidad = 0;
+    let idActual = 0;
+    let idIngresado = 0;
 
-    /*
-    carrito = [
-        [2, "Celular Moto Trola", 135, false], 0 (i)
-        [2, "Celular Moto Trola", 135, false]  1 (i)
-    ]
-    */
     for (let i = 0; i < carritoDeCompra.length; i++) {
-        for (let j = 0; j < carritoDeCompra[i].length; j++) {
+        // Me quedo con el id actual
+        idActual = carritoDeCompra[i][0];
 
-            if (carritoDeCompra[i][j] == carritoDeCompra[i][0]) {
+        // Reinicializo (limpio) las variables solo si el id actual es diferente al que nos guardamos anteriormente
+        if (idIngresado !== idActual) {
+            // Guardo lo que tenemos actualmente, en la cadena que finalmente vamos a mostrar.
+            cadenaFinal += cadena; 
+            // Limpio las variables auxiliares
+            cadena = "";
+            cantidad = 0;
+        }
+
+        for (let j = 0; j < carritoDeCompra[i].length; j++) {
+            // Verifico si existe ese id, dentro del array 
+            if (idActual === carritoDeCompra[i][j]) {
                 cantidad += 1;
-                break;
+                idIngresado = idActual;
             }
         }
-        cadena += `
-                    👤 NOMBRE: ${productos[i][1]}
-                    PRECIO: $ ${productos[i][2]}
+
+        // Si ya me había guardado la info, la piso para actualizar la cantidad y el subtotal
+        if (idActual === idIngresado) {
+            cadena = `
+                    👤 NOMBRE: ${carritoDeCompra[i][1]}
+                    PRECIO: $ ${carritoDeCompra[i][2]}
                     CANTIDAD: ${cantidad}
-                    SUBTOTAL: ${cantidad * oductos[i][2]} 
+                    SUBTOTAL: ${cantidad * carritoDeCompra[i][2]} 
                     ---------------------
                     `;
+        } 
     }
 
-    alert(cadena);
+    cadenaFinal += cadena;
+    alert(cadenaFinal);
 }
-// mostrarProductos: recibe el array del carrito de compras y muestra el listado de productos con los siguientes datos: nombre del producto, precio, cantidad y subtotal (precio x cantidad)
 
 /*
 Mostrar Compra
