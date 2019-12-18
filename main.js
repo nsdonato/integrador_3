@@ -31,7 +31,7 @@ const agregarProducto = (idProducto) => {
             */
             if (productos[i][j] === idProducto) {
                 productoExistente = true;
-                let cantidad = prompt("¿cuanto quere agregar wachen?");
+                let cantidad = prompt("➕ ¿cuanto quere agregar wachen?");
 
                 // Agregamos al carrito las cantidades que el wachin quiera.
                 for (let k = 1; k <= cantidad; k++) {
@@ -43,7 +43,7 @@ const agregarProducto = (idProducto) => {
 
     // Si el producto no existe debe mostrar un mensaje informándolo
     if (!productoExistente) {
-        alert("Che wacho el producto no existe");
+        alert("⚠️Che wacho el producto no existe");
     }
 
     //console.log(mostrarProductos(carrito));
@@ -129,9 +129,9 @@ const mostrarProductos = carritoDeCompra => {
         if (idActual === idIngresado) {
             cadena = `
                     👤 NOMBRE: ${carritoDeCompra[i][1]}
-                    PRECIO: $ ${carritoDeCompra[i][2]}
-                    CANTIDAD: ${cantidad}
-                    SUBTOTAL: ${cantidad * carritoDeCompra[i][2]} 
+                    💲 PRECIO: $ ${carritoDeCompra[i][2]}
+                    🔢 CANTIDAD: ${cantidad}
+                    💰 SUBTOTAL: ${cantidad * carritoDeCompra[i][2]} 
                     ---------------------
                     `;
         } 
@@ -149,18 +149,83 @@ cantidad total de productos
 total (suma de subtotales)
 Luego debe llevar al menú de operaciones
 */
+
+const eliminarProducto = (idProducto) => {
+    debugger;
+    let productoAEliminar = false;
+    let datosDelProducto = ""
+    let respuestaEliminacion = ""
+
+    for(i=0; datosDelProducto != "NAH" && respuestaEliminacion != "NAH"; i++) {
+    for (let i = 0; i < carrito.length; i++) {
+
+        for (let j = 0; j < carrito[i].length; j++) {
+
+            /*
+            //Si el producto existe y está en el carrito debe mostrar los datos del producto (nombre y cantidad a comprar) y preguntar si desea confirmar la operación
+            */
+            if (carrito[i][j] === idProducto) {
+                productoAEliminar = true;
+                let datosDelProducto = prompt( `❗ Estos son los datos del producto que quere' borrar:
+                 ${carrito[idProducto][1]}
+                ¿Desea confirmar? 
+                 ✔️PIOLA/❌NAH`)
+                //Si la respuesta es afirmativa debe eliminar el producto del carrito y mostrar un mensaje de éxito
+                if(datosDelProducto === "PIOLA") {
+                    carrito.splice(i, 1);
+                    alert("✔️ La operación fue realizada éxitosamente")
+                    respuestaEliminacion = prompt(`Quere' eliminar algo más? 
+                    ✔️PIOLA/❌NAH`)
+                    if (respuestaEliminacion === "PIOLA"){
+                        accion ="ELIMINAR"
+                    }
+                    
+                   }
+                  //Si la respuesta es negativa debe mostrar un mensaje indicando que la operación fue cancelada
+
+                   else {
+                    alert("❌ Operación cancelada")
+                    //Si la respuesta es negativa debe llevar al menú de operaciones
+                     accion = "";
+                    
+                }
+
+
+                
+            }
+             
+        }
+    }
+    
+}
+
+
+}
+
+const cancelarCompra = (respuesta) => {
+    
+    if(confirmacion == "RE") {
+        alert("Chau wacho")
+    }
+    else {
+        accion = "";
+    }
+
+}
+
+
 while (accion.toUpperCase() !== "COMPRAOK") {
 
     if (accion === "") {
         accion = prompt(`--------------------------------------------
                             ⚙️ SELECCIONE UNA OPERACIÓN
                           --------------------------------------------
-                        ➡️ [AGREGAR] productos a nuestro carrito
-                        ➡️ [MOSTRAR] el detalle de la compra
-                        ➡️ [ELIMINAR] productos 
-                        ➡️ [VACIAR] el carrito 
-                        ➡️ [CONFIRMAR] la compra
-                        ➡️ [CANCELAR] la compra`);
+                          ➕ [AGREGAR] productos a nuestro carrito
+                          📑 [MOSTRAR] el detalle de la compra
+                          ✂️ [ELIMINAR] productos 
+                          🗑️[VACIAR] el carrito 
+                          ✔️[CONFIRMAR] la compra
+                          🚪 [CANCELAR] la compra`);
 
         if (accion != null && accion != "") {
             accion.toUpperCase();
@@ -174,17 +239,17 @@ while (accion.toUpperCase() !== "COMPRAOK") {
             cadena += `
                        🆔 ID: ${productos[i][0]} 
                        👤 NOMBRE: ${productos[i][1]}
-                       👤 PRECIO: ${productos[i][2]}
+                       💲 PRECIO: ${productos[i][2]}
                        ---------------------
                        `;
         }
 
-        let id = Number(prompt("Por favor ingrese el ID del producto a agregar al carrito"));
+        let id = Number(prompt("🙏🏻Por favor ingrese el 🆔 del producto a agregar al carrito"));
 
         agregarProducto(id);
 
         // A continuación debe pedir si se desea realizar nuevamente el procedimiento
-        let confirmacion = prompt("quere volve a compra? PIOLA/NAH");
+        let confirmacion = prompt("💸 quere volve a compra? ✔️PIOLA/❌NAH");
 
         //Si la respuesta es afirmativa debe volver a realizar el procedimiento
         if (confirmacion == "PIOLA") {
@@ -195,6 +260,21 @@ while (accion.toUpperCase() !== "COMPRAOK") {
         }
 
     }
+
+    if (accion.toUpperCase() === "ELIMINAR") {
+        let id = Number(prompt("🙏🏻Por favor ingresa el 🆔 del producto que quere' eliminar wacho"));
+ 
+         eliminarProducto(id);
+ 
+         
+     }
+ 
+     if (accion.toUpperCase() === "CANCELAR") {
+         let confirmacion = prompt("🚪🚶‍♂️¿De verdad te quere' ir?  ✔️PIOLA/❌NAH" );
+         
+          cancelarProducto(confirmacion);
+ 
+ }
 
 }
 
