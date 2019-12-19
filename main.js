@@ -11,7 +11,6 @@ let accion = "";
 let carritoSubTotal = [];
 
 const agregarProducto = (idProducto) => {
-    debugger;
     let productoExistente = false;
     let indiceIdEnCarrito = 0;
     let subtotal = 0;
@@ -30,7 +29,7 @@ const agregarProducto = (idProducto) => {
             for (let x = 0; x < carrito.length; x++) {
                 if (idProducto === carrito[x][0]) {
                     productoEnCarrito = true;
-                    indiceIdEnCarrito = x; // carrito[x].indexOf(idProducto);
+                    indiceIdEnCarrito = x;
                 }
             }
 
@@ -124,7 +123,6 @@ const contarTotalDeProductos = (carritoDeCompra) => {
 }
 
 const mostrarProductos = carritoDeCompra => {
-    debugger;
     let cadena = "";
 
     for (let x = 0; x < carritoDeCompra.length; x++) {
@@ -169,6 +167,8 @@ const confirmarCompra = () => {
 const eliminarProducto = (idProducto) => {
     debugger;
     let repetirOperacion = ""
+    let encontreProducto = false;
+    let indiceProductoEncontrado = 0;
 
     for (let i = 0; i < carrito.length; i++) {
 
@@ -177,65 +177,64 @@ const eliminarProducto = (idProducto) => {
             break;
         }
 
-        for (let j = 0; j < carrito[i].length; j++) {
-
-            /*
-            //Si el producto existe y está en el carrito debe mostrar los datos del producto (nombre y cantidad a comprar) y preguntar si desea confirmar la operación
-            */
-            if (carrito[i][j] === idProducto) {
-
-                let datosDelProducto = prompt(`❗ Estos son los datos del producto que quere' borrar:
-                 ${carrito[i][1]}
-                ¿Desea confirmar? 
-                 ✔️PIOLA/❌NAH`)
-
-                //Si la respuesta es afirmativa debe eliminar el producto del carrito y mostrar un mensaje de éxito
-                if (datosDelProducto === "PIOLA") {
-
-                    carrito.splice(i, 1);
-
-                    alert("✔️ La operación fue realizada éxitosamente");
-
-                    repetirOperacion = prompt(`Quere' eliminar algo más? 
-                    ✔️PIOLA/❌NAH`);
-
-                    if (repetirOperacion === "NAH") {
-
-                        accion = "";
-                        break;
-
-                    } else if (repetirOperacion !== "PIOLA") {
-
-                        alert(`
-                        🚫 Opción inválida
-                        🙏 Por favor, ingresar una operación correcta`);
-
-                    } else if (repetirOperacion === "PIOLA") {
-
-                        if (carrito.length == 0) {
-                            alert(`La operación no puede repetirse, todos los productos fueron eliminados`);
-                            accion = "";
-                            break;
-                        }
-                    }
-
-                } else {
-
-                    //Si la respuesta es negativa debe mostrar un mensaje indicando que la operación fue cancelada
-                    alert("❌ Operación cancelada")
-                    //Si la respuesta es negativa debe llevar al menú de operaciones
-                    accion = "";
-
-                }
-
-            } else {
-                alert("Que flashea wacho ese id no existe culiau");
-                repetirOperacion = "NAH";
-                break;
-            }
+        /* Si el producto existe y está en el carrito debe mostrar los datos del producto (nombre y cantidad a comprar) y preguntar si desea confirmar la operación */
+        if (carrito[i][0] === idProducto) {
+            encontreProducto = true;
+            indiceProductoEncontrado = i;
+            break;
         }
     }
+
+    if (encontreProducto) {
+        let datosDelProducto = prompt(`❗ Estos son los datos del producto que quere' borrar:
+            ${carrito[indiceProductoEncontrado][1]}
+            ${carrito[indiceProductoEncontrado][2]}
+           ¿Desea confirmar? 
+            ✔️PIOLA/❌NAH`)
+
+        //Si la respuesta es afirmativa debe eliminar el producto del carrito y mostrar un mensaje de éxito
+        if (datosDelProducto === "PIOLA") {
+
+            carrito.splice(indiceProductoEncontrado, 1);
+
+            alert("✔️ La operación fue realizada éxitosamente");
+
+            repetirOperacion = prompt(`Quere' eliminar algo más? 
+               ✔️PIOLA/❌NAH`);
+
+            if (repetirOperacion === "NAH") {
+
+                accion = "";
+
+            } else if (repetirOperacion !== "PIOLA") {
+
+                alert(`
+                   🚫 Opción inválida
+                   🙏 Por favor, ingresar una operación correcta`);
+
+            } else if (repetirOperacion === "PIOLA") {
+
+                if (carrito.length == 0) {
+                    alert(`La operación no puede repetirse, todos los productos fueron eliminados`);
+                    accion = "";
+                }
+            }
+
+        } else {
+
+            //Si la respuesta es negativa debe mostrar un mensaje indicando que la operación fue cancelada
+            alert("❌ Operación cancelada")
+            //Si la respuesta es negativa debe llevar al menú de operaciones
+            accion = "";
+
+        }
+
+    } else {
+        alert("Que flashea wacho ese id no existe culiau");
+        repetirOperacion = "NAH";
+    }
 }
+
 
 const cancelarCompra = (respuesta) => {
 
@@ -366,13 +365,10 @@ while (accion !== "SALIR") {
     } else if (accion === "MOSTRAR") {
 
         if (carrito.length >= 1) {
-            debugger;
             alert(`${mostrarDetalle(carrito)}`);
-            // ${contarTotalDeProductos(carrito)}
-            // ${totalSumaSubtotales(carrito)}`);
 
         } else {
-            alert("Recatate wacho todavía no compraste agregaste nada al chango")
+            alert("Recatate wacho todavía no agregaste nada al chango")
         }
 
         accion = "";
