@@ -18,7 +18,7 @@ let descuento = 0.2; // 20%
 let accion = "";
 
 const agregarProducto = (idProducto) => {
-    debugger;
+    
     let productoExistente = false;
 
     for (let i = 0; i < productos.length; i++) {
@@ -138,7 +138,7 @@ const mostrarProductos = carritoDeCompra => {
     }
 
     cadenaFinal += cadena;
-    alert(cadenaFinal);
+    return cadenaFinal
 }
 
 /*
@@ -174,22 +174,23 @@ const confirmarCompra = () => {
 
 const eliminarProducto = (idProducto) => {
     debugger;
-    let productoAEliminar = false;
     let datosDelProducto = ""
     let respuestaEliminacion = ""
 
-    for (i = 0; datosDelProducto != "NAH" && respuestaEliminacion != "NAH"; i++) {
+    if (carrito.length >= 1) {
+        // for (let k = 0; datosDelProducto != "NAH" && respuestaEliminacion != "NAH"; k++) {
         for (let i = 0; i < carrito.length; i++) {
-
+            if(respuestaEliminacion == "NAH"){
+                break
+            }
             for (let j = 0; j < carrito[i].length; j++) {
 
                 /*
                 //Si el producto existe y está en el carrito debe mostrar los datos del producto (nombre y cantidad a comprar) y preguntar si desea confirmar la operación
                 */
                 if (carrito[i][j] === idProducto) {
-                    productoAEliminar = true;
                     let datosDelProducto = prompt(`❗ Estos son los datos del producto que quere' borrar:
-                 ${carrito[idProducto][1]}
+                 ${carrito[i][1]}
                 ¿Desea confirmar? 
                  ✔️PIOLA/❌NAH`)
                     //Si la respuesta es afirmativa debe eliminar el producto del carrito y mostrar un mensaje de éxito
@@ -198,11 +199,24 @@ const eliminarProducto = (idProducto) => {
                         alert("✔️ La operación fue realizada éxitosamente")
                         respuestaEliminacion = prompt(`Quere' eliminar algo más? 
                     ✔️PIOLA/❌NAH`)
-                        if (respuestaEliminacion === "PIOLA") {
-                            accion = "ELIMINAR"
+                    if (respuestaEliminacion === "NAH") {
+                        accion = "";
+                        break;
+                    } else if (respuestaEliminacion !== "PIOLA") {
+                        alert(`
+                        🚫 Opción inválida
+                        🙏 Por favor, ingresar una operación correcta`);
+                    }  else if (respuestaEliminacion === "PIOLA"){
+                        
+                        if(carrito.length == 0){
+                            alert(`La operación no puede repetirse, todos los productos fueron eliminados`);
+                            accion = "";
+                            break;
                         }
+                    }
 
                     }
+
                     //Si la respuesta es negativa debe mostrar un mensaje indicando que la operación fue cancelada
 
                     else {
@@ -218,15 +232,19 @@ const eliminarProducto = (idProducto) => {
 
             }
         }
-
     }
+    else{
+        alert("El carrito no tiene productos")
+        accion = ""
+    }
+    //}
 
 
 }
 
 const cancelarCompra = (respuesta) => {
-
-    if (confirmacion == "RE") {
+    debugger
+    if (respuesta == "PIOLA") {
         alert("Chau wacho")
     }
     else {
@@ -235,6 +253,10 @@ const cancelarCompra = (respuesta) => {
 
 }
 
+const vaciarCarrito = (carritoDeCompra) => {
+    carritoDeCompra = []
+    alert("Se eliminaron lo´ producto´ wachen")
+}
 
 while (accion.toUpperCase() !== "COMPRAOK") {
 
@@ -282,14 +304,14 @@ while (accion.toUpperCase() !== "COMPRAOK") {
         }
 
     }
-    if (accion.toUpperCase() === `CONFIRMAR`) {
+    else if (accion.toUpperCase() === `CONFIRMAR`) {
         codigoDeDescuento()
         accion = "";
 
     }
 
 
-    if (accion.toUpperCase() === "ELIMINAR") {
+    else if (accion.toUpperCase() === "ELIMINAR") {
         let id = Number(prompt("🙏🏻Por favor ingresa el 🆔 del producto que quere' eliminar wacho"));
 
         eliminarProducto(id);
@@ -298,14 +320,30 @@ while (accion.toUpperCase() !== "COMPRAOK") {
     }
 
 
-    if (accion.toUpperCase() === "CANCELAR") {
+    else if (accion.toUpperCase() === "CANCELAR") {
         let confirmacion = prompt("🚪🚶‍♂️¿De verdad te quere' ir?  ✔️PIOLA/❌NAH");
 
-        cancelarProducto(confirmacion);
+        cancelarCompra(confirmacion);
 
     }
+    /* Vaciar carrito
+    Debe preguntar si desea confirmar la operación (eliminar todos los productos del carrito)
+    Si la respuesta es afirmativa debe eliminar todos los productos del carrito y mostrar un mensaje de éxito
+    Si la respuesta es negativa debe mostrar un mensaje indicando que la operación fue cancelada
+    A continuación debe llevar al menú de operaciones*/
 
+    else if (accion.toUpperCase() === "VACIAR") {
+        let confirmarVaciar = prompt("Desea eliminar todos los productos?")
+        if (confirmarVaciar === "SI") {
+            vaciarCarrito(carrito)
+        }
+        else {
+            alert("La operación fue #cancelADA")
+        }
+        accion = ""
+    }
 }
+
 
 
 
