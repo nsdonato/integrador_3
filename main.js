@@ -5,20 +5,13 @@ let productos = [
     [4, "Sorny PS 7", 215, true],
 ];
 
-/*
-Tareas:
-    Sabri -> Eliminar
-    Nil -> Confirmar
-    Tefi -> Vaciar
-    Noe -> Cancelar
-*/
-
 let carrito = [];
 let descuento = 0.2; // 20%
 let accion = "";
+let totalSumaSubtotales = 0;
 
 const agregarProducto = (idProducto) => {
-    
+
     let productoExistente = false;
 
     for (let i = 0; i < productos.length; i++) {
@@ -45,12 +38,22 @@ const agregarProducto = (idProducto) => {
     if (!productoExistente) {
         alert("⚠️Che wacho el producto no existe");
     }
-
-    //console.log(mostrarProductos(carrito));
 }
 
-const mostrarDetalle = () => {
+/*Mostrar Compra
+Mostrar el detalle de la compra con:
 
+total (suma de subtotales)
+Luego debe llevar al menú de operaciones*/
+
+const mostrarDetalle = (carrito) => {
+
+    let detalle = `${mostrarProductos(carrito)}
+    Total de productos: ${ contarTotalDeProductos(carrito)}
+    ${totalSumaSubtotales}`;
+    accion = "";
+
+    return detalle;
 }
 
 const contarTotalDeProductos = carritoDeCompra => carritoDeCompra.length;
@@ -80,7 +83,6 @@ const totalDescuento = carritoDeCompra => {
 }
 
 const ObtenerCantidadDeProductos = (carritoDeCompra) => {
-    debugger;
     let cantidad = 0;
 
     for (let i = 0; i < carritoDeCompra.length; i++) {
@@ -96,7 +98,6 @@ const ObtenerCantidadDeProductos = (carritoDeCompra) => {
 }
 
 const mostrarProductos = carritoDeCompra => {
-
     // Declaro e inicializo las variables
     let cadena = "";
     let cadenaFinal = "";
@@ -105,6 +106,7 @@ const mostrarProductos = carritoDeCompra => {
     let idIngresado = 0;
 
     for (let i = 0; i < carritoDeCompra.length; i++) {
+
         // Me quedo con el id actual
         idActual = carritoDeCompra[i][0];
 
@@ -118,6 +120,7 @@ const mostrarProductos = carritoDeCompra => {
         }
 
         for (let j = 0; j < carritoDeCompra[i].length; j++) {
+
             // Verifico si existe ese id, dentro del array 
             if (idActual === carritoDeCompra[i][j]) {
                 cantidad += 1;
@@ -127,30 +130,24 @@ const mostrarProductos = carritoDeCompra => {
 
         // Si ya me había guardado la info, la piso para actualizar la cantidad y el subtotal
         if (idActual === idIngresado) {
+
             cadena = `
-                    👤 NOMBRE: ${carritoDeCompra[i][1]}
-                    💲 PRECIO: $ ${carritoDeCompra[i][2]}
-                    🔢 CANTIDAD: ${cantidad}
-                    💰 SUBTOTAL: ${cantidad * carritoDeCompra[i][2]} 
-                    ---------------------
-                    `;
+👤 NOMBRE: ${carritoDeCompra[i][1]}
+💲 PRECIO: $ ${carritoDeCompra[i][2]}
+🔢 CANTIDAD: ${cantidad}
+💰 SUBTOTAL: $ ${cantidad * carritoDeCompra[i][2]} 
+---------------------`;
+
         }
     }
 
     cadenaFinal += cadena;
+
     return cadenaFinal
 }
 
-/*
-Mostrar Compra
-Mostrar el detalle de la compra con:
-nombre del producto, precio, cantidad y subtotal (precio x cantidad)
-cantidad total de productos
-total (suma de subtotales)
-Luego debe llevar al menú de operaciones
-*/
-
 const codigoDeDescuento = () => {
+
     let codigoCorrecto = "REPIOLA"
     let tieneCodigo = prompt(`Tenes codigo de descuento?`)
     if (tieneCodigo == "SI") {
@@ -165,7 +162,6 @@ const codigoDeDescuento = () => {
     else {
         alert(`Lo siento, no tienes codigo`)
     }
-
 }
 
 const confirmarCompra = () => {
@@ -173,14 +169,13 @@ const confirmarCompra = () => {
 }
 
 const eliminarProducto = (idProducto) => {
-    debugger;
     let datosDelProducto = ""
     let respuestaEliminacion = ""
 
     if (carrito.length >= 1) {
         // for (let k = 0; datosDelProducto != "NAH" && respuestaEliminacion != "NAH"; k++) {
         for (let i = 0; i < carrito.length; i++) {
-            if(respuestaEliminacion == "NAH"){
+            if (respuestaEliminacion == "NAH") {
                 break
             }
             for (let j = 0; j < carrito[i].length; j++) {
@@ -199,21 +194,21 @@ const eliminarProducto = (idProducto) => {
                         alert("✔️ La operación fue realizada éxitosamente")
                         respuestaEliminacion = prompt(`Quere' eliminar algo más? 
                     ✔️PIOLA/❌NAH`)
-                    if (respuestaEliminacion === "NAH") {
-                        accion = "";
-                        break;
-                    } else if (respuestaEliminacion !== "PIOLA") {
-                        alert(`
-                        🚫 Opción inválida
-                        🙏 Por favor, ingresar una operación correcta`);
-                    }  else if (respuestaEliminacion === "PIOLA"){
-                        
-                        if(carrito.length == 0){
-                            alert(`La operación no puede repetirse, todos los productos fueron eliminados`);
+                        if (respuestaEliminacion === "NAH") {
                             accion = "";
                             break;
+                        } else if (respuestaEliminacion !== "PIOLA") {
+                            alert(`
+                        🚫 Opción inválida
+                        🙏 Por favor, ingresar una operación correcta`);
+                        } else if (respuestaEliminacion === "PIOLA") {
+
+                            if (carrito.length == 0) {
+                                alert(`La operación no puede repetirse, todos los productos fueron eliminados`);
+                                accion = "";
+                                break;
+                            }
                         }
-                    }
 
                     }
 
@@ -233,43 +228,40 @@ const eliminarProducto = (idProducto) => {
             }
         }
     }
-    else{
+    else {
         alert("El carrito no tiene productos")
         accion = ""
     }
     //}
-
-
 }
 
 const cancelarCompra = (respuesta) => {
-    debugger
+
     if (respuesta == "PIOLA") {
         alert("Chau wacho")
+        accion = "SALIR";
     }
     else {
         accion = "";
     }
-
 }
 
 const vaciarCarrito = (carritoDeCompra) => {
-    carritoDeCompra = []
-    alert("Se eliminaron lo´ producto´ wachen")
+    carritoDeCompra = [];
 }
 
-while (accion.toUpperCase() !== "COMPRAOK") {
+while (accion.toUpperCase() !== "SALIR") {
 
     if (accion === "") {
         accion = prompt(`--------------------------------------------
-                            ⚙️ SELECCIONE UNA OPERACIÓN
-                          --------------------------------------------
-                          ➕ [AGREGAR] productos a nuestro carrito
-                          📑 [MOSTRAR] el detalle de la compra
-                          ✂️ [ELIMINAR] productos 
-                          🗑️[VACIAR] el carrito 
-                          ✔️[CONFIRMAR] la compra
-                          🚪 [CANCELAR] la compra`);
+⚙️ SELECCIONE UNA OPERACIÓN
+--------------------------------------------
+➕ [AGREGAR] productos a nuestro carrito
+📑 [MOSTRAR] el detalle de la compra
+✂️ [ELIMINAR] productos 
+🗑️[VACIAR] el carrito 
+✔️[CONFIRMAR] la compra
+🚪 [CANCELAR] la compra`);
 
         if (accion != null && accion != "") {
             accion.toUpperCase();
@@ -277,8 +269,9 @@ while (accion.toUpperCase() !== "COMPRAOK") {
     }
 
     if (accion.toUpperCase() === "AGREGAR") {
-        // Mostramos todos los productos
+
         let cadena = "";
+        // Mostramos todos los productos
         for (let i = 0; i < productos.length; i++) {
             cadena += `
                        🆔 ID: ${productos[i][0]} 
@@ -289,13 +282,12 @@ while (accion.toUpperCase() !== "COMPRAOK") {
         }
 
         let id = Number(prompt("🙏🏻Por favor ingrese el 🆔 del producto a agregar al carrito"));
-
         agregarProducto(id);
 
         // A continuación debe pedir si se desea realizar nuevamente el procedimiento
         let confirmacion = prompt("💸 quere volve a compra? ✔️PIOLA/❌NAH");
 
-        //Si la respuesta es afirmativa debe volver a realizar el procedimiento
+        // Si la respuesta es afirmativa debe volver a realizar el procedimiento
         if (confirmacion == "PIOLA") {
             accion = "AGREGAR";
         } else {
@@ -303,39 +295,46 @@ while (accion.toUpperCase() !== "COMPRAOK") {
             accion = "";
         }
 
-    }
-    else if (accion.toUpperCase() === `CONFIRMAR`) {
-        codigoDeDescuento()
-        accion = "";
+    } else if (accion.toUpperCase() === `CONFIRMAR`) {
 
-    }
+        if (carrito.length >= 1) {
+
+            alert(`
+            ${mostrarDetalle(carrito)}
+            `);
+
+            accion = "";
+
+        } else {
+
+            alert("No hay productos en tu carrito wacho");
+            accion = "";
+
+        }
 
 
-    else if (accion.toUpperCase() === "ELIMINAR") {
+        // codigoDeDescuento()
+        // accion = "";
+
+    } else if (accion.toUpperCase() === "ELIMINAR") {
+
         let id = Number(prompt("🙏🏻Por favor ingresa el 🆔 del producto que quere' eliminar wacho"));
-
         eliminarProducto(id);
 
+    } else if (accion.toUpperCase() === "CANCELAR") {
 
-    }
-
-
-    else if (accion.toUpperCase() === "CANCELAR") {
         let confirmacion = prompt("🚪🚶‍♂️¿De verdad te quere' ir?  ✔️PIOLA/❌NAH");
-
         cancelarCompra(confirmacion);
 
-    }
-    /* Vaciar carrito
-    Debe preguntar si desea confirmar la operación (eliminar todos los productos del carrito)
-    Si la respuesta es afirmativa debe eliminar todos los productos del carrito y mostrar un mensaje de éxito
-    Si la respuesta es negativa debe mostrar un mensaje indicando que la operación fue cancelada
-    A continuación debe llevar al menú de operaciones*/
+    } else if (accion.toUpperCase() === "VACIAR") {
 
-    else if (accion.toUpperCase() === "VACIAR") {
-        let confirmarVaciar = prompt("Desea eliminar todos los productos?")
+        let confirmarVaciar = prompt("Desea eliminar todos los productos?");
+
         if (confirmarVaciar === "SI") {
-            vaciarCarrito(carrito)
+
+            vaciarCarrito(carrito);
+            alert("Se eliminaron lo´ producto´ wachen");
+
         }
         else {
             alert("La operación fue #cancelADA")
@@ -343,7 +342,3 @@ while (accion.toUpperCase() !== "COMPRAOK") {
         accion = ""
     }
 }
-
-
-
-
