@@ -40,12 +40,6 @@ const agregarProducto = (idProducto) => {
     }
 }
 
-/*Mostrar Compra
-Mostrar el detalle de la compra con:
-
-total (suma de subtotales)
-Luego debe llevar al menú de operaciones*/
-
 const mostrarDetalle = (carrito) => {
 
     let detalle = `${mostrarProductos(carrito)}
@@ -169,70 +163,73 @@ const confirmarCompra = () => {
 }
 
 const eliminarProducto = (idProducto) => {
-    let datosDelProducto = ""
-    let respuestaEliminacion = ""
+    let repetirOperacion = ""
 
-    if (carrito.length >= 1) {
-        // for (let k = 0; datosDelProducto != "NAH" && respuestaEliminacion != "NAH"; k++) {
-        for (let i = 0; i < carrito.length; i++) {
-            if (respuestaEliminacion == "NAH") {
-                break
-            }
-            for (let j = 0; j < carrito[i].length; j++) {
+    for (let i = 0; i < carrito.length; i++) {
 
-                /*
-                //Si el producto existe y está en el carrito debe mostrar los datos del producto (nombre y cantidad a comprar) y preguntar si desea confirmar la operación
-                */
-                if (carrito[i][j] === idProducto) {
-                    let datosDelProducto = prompt(`❗ Estos son los datos del producto que quere' borrar:
+        if (repetirOperacion == "NAH") {
+            accion = "";
+            break;
+        }
+
+        for (let j = 0; j < carrito[i].length; j++) {
+
+            /*
+            //Si el producto existe y está en el carrito debe mostrar los datos del producto (nombre y cantidad a comprar) y preguntar si desea confirmar la operación
+            */
+            if (carrito[i][j] === idProducto) {
+
+                let datosDelProducto = prompt(`❗ Estos son los datos del producto que quere' borrar:
                  ${carrito[i][1]}
                 ¿Desea confirmar? 
                  ✔️PIOLA/❌NAH`)
-                    //Si la respuesta es afirmativa debe eliminar el producto del carrito y mostrar un mensaje de éxito
-                    if (datosDelProducto === "PIOLA") {
-                        carrito.splice(i, 1);
-                        alert("✔️ La operación fue realizada éxitosamente")
-                        respuestaEliminacion = prompt(`Quere' eliminar algo más? 
-                    ✔️PIOLA/❌NAH`)
-                        if (respuestaEliminacion === "NAH") {
-                            accion = "";
-                            break;
-                        } else if (respuestaEliminacion !== "PIOLA") {
-                            alert(`
+
+                //Si la respuesta es afirmativa debe eliminar el producto del carrito y mostrar un mensaje de éxito
+                if (datosDelProducto === "PIOLA") {
+
+                    carrito.splice(i, 1);
+
+                    alert("✔️ La operación fue realizada éxitosamente");
+
+                    repetirOperacion = prompt(`Quere' eliminar algo más? 
+                    ✔️PIOLA/❌NAH`);
+
+                    if (repetirOperacion === "NAH") {
+
+                        accion = "";
+                        break;
+
+                    } else if (repetirOperacion !== "PIOLA") {
+
+                        alert(`
                         🚫 Opción inválida
                         🙏 Por favor, ingresar una operación correcta`);
-                        } else if (respuestaEliminacion === "PIOLA") {
 
-                            if (carrito.length == 0) {
-                                alert(`La operación no puede repetirse, todos los productos fueron eliminados`);
-                                accion = "";
-                                break;
-                            }
+                    } else if (repetirOperacion === "PIOLA") {
+
+                        if (carrito.length == 0) {
+                            alert(`La operación no puede repetirse, todos los productos fueron eliminados`);
+                            accion = "";
+                            break;
                         }
-
                     }
+
+                } else {
 
                     //Si la respuesta es negativa debe mostrar un mensaje indicando que la operación fue cancelada
-
-                    else {
-                        alert("❌ Operación cancelada")
-                        //Si la respuesta es negativa debe llevar al menú de operaciones
-                        accion = "";
-
-                    }
-
-
+                    alert("❌ Operación cancelada")
+                    //Si la respuesta es negativa debe llevar al menú de operaciones
+                    accion = "";
 
                 }
 
+            } else {
+                alert("Que flashea wacho ese id no existe culiau");
+                repetirOperacion = "NAH";
+                break;
             }
         }
     }
-    else {
-        alert("El carrito no tiene productos")
-        accion = ""
-    }
-    //}
 }
 
 const cancelarCompra = (respuesta) => {
@@ -312,14 +309,22 @@ while (accion.toUpperCase() !== "SALIR") {
 
         }
 
-
         // codigoDeDescuento()
         // accion = "";
 
     } else if (accion.toUpperCase() === "ELIMINAR") {
 
-        let id = Number(prompt("🙏🏻Por favor ingresa el 🆔 del producto que quere' eliminar wacho"));
-        eliminarProducto(id);
+        if (carrito.length >= 1) {
+
+            let id = Number(prompt("🙏🏻Por favor ingresa el 🆔 del producto que quere' eliminar wacho"));
+            eliminarProducto(id);
+
+        } else {
+
+            alert("El carrito no tiene productos.")
+            accion = "";
+        }
+
 
     } else if (accion.toUpperCase() === "CANCELAR") {
 
