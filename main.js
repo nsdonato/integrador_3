@@ -60,8 +60,8 @@ const agregarProducto = (idProducto) => {
 
 const mostrarDetalle = (carrito) => {
     let detalle = `${mostrarProductos(carrito)}
-    Total de productos: ${ contarTotalDeProductos(carrito)}
-    Total: $ ${totalSumaSubtotales(carrito)}`;
+Total de productos: ${ contarTotalDeProductos(carrito)}
+Total: $ ${totalSumaSubtotales(carrito)}`;
     accion = "";
 
     return detalle;
@@ -74,8 +74,8 @@ const mostrarDetalleConDescuento = carritoDeCompras => {
     let total = totalSumaSubtotales(carritoDeCompras) - totalDesc;
 
     return `${mostrarDetalle(carritoDeCompras)}
-            ${totalDesc}
-            ${total}`;
+Total descuento: $ ${totalDesc}
+Total: $ ${total}`;
 }
 
 const totalSumaSubtotales = carritoDeCompra => {
@@ -102,14 +102,14 @@ const totalDescuento = carritoDeCompra => {
     let subTotal = 0;
 
     for (let i = 0; i < carritoDeCompra.length; i++) {
-        // el indice 3, es donde esta si tiene o no descuento
-        if (carritoDeCompra[i][3]) {
+        // el indice 5, es donde esta si tiene o no descuento
+        if (carritoDeCompra[i][5]) {
             // en el indice 2, esta el precio
-            subTotal += carritoDeCompra[i][2];
+            subTotal += carritoDeCompra[i][4];
         }
     }
 
-    return subTotal * descuento;
+    return (subTotal * descuento).toFixed(2);
 }
 
 const contarTotalDeProductos = (carritoDeCompra) => {
@@ -127,11 +127,11 @@ const mostrarProductos = carritoDeCompra => {
 
     for (let x = 0; x < carritoDeCompra.length; x++) {
         cadena += `
-        👤 NOMBRE: ${carritoDeCompra[x][1]}
-        💲 PRECIO: $ ${carritoDeCompra[x][4]}
-        🔢 CANTIDAD: ${carritoDeCompra[x][2]}
-        💰 SUBTOTAL: $ ${carritoDeCompra[x][3]} 
-        ---------------------`;
+👤 NOMBRE: ${carritoDeCompra[x][1]}
+💲 PRECIO: $ ${carritoDeCompra[x][4]}
+🔢 CANTIDAD: ${carritoDeCompra[x][2]}
+💰 SUBTOTAL: $ ${carritoDeCompra[x][3]} 
+---------------------`;
     }
 
     return cadena;
@@ -165,7 +165,6 @@ const confirmarCompra = () => {
 }
 
 const eliminarProducto = (idProducto) => {
-    debugger;
     let repetirOperacion = ""
     let encontreProducto = false;
     let indiceProductoEncontrado = 0;
@@ -252,7 +251,6 @@ const vaciarCarrito = (carritoDeCompra) => {
 }
 
 while (accion !== "SALIR") {
-    debugger;
     if (accion === "") {
         accion = prompt(`--------------------------------------------
 ⚙️ SELECCIONE UNA OPERACIÓN
@@ -275,11 +273,11 @@ while (accion !== "SALIR") {
         // Mostramos todos los productos
         for (let i = 0; i < productos.length; i++) {
             cadena += `
-                       🆔 ID: ${productos[i][0]} 
-                       👤 NOMBRE: ${productos[i][1]}
-                       💲 PRECIO: ${productos[i][2]}
-                       ---------------------
-                       `;
+🆔 ID: ${productos[i][0]} 
+👤 NOMBRE: ${productos[i][1]}
+💲 PRECIO: ${productos[i][2]}
+---------------------
+`;
         }
 
         let id = Number(prompt("🙏🏻Por favor ingrese el 🆔 del producto a agregar al carrito"));
@@ -302,16 +300,17 @@ while (accion !== "SALIR") {
             ${mostrarDetalle(carrito)}
             `);
 
+            debugger;
             // Preguntar si tiene un codigo de descuento
             if (codigoDeDescuento()) {
 
-                mostrarDetalleConDescuento(carrito);
+                alert(`${mostrarDetalleConDescuento(carrito)}`);
 
             } else {
 
                 alert(`
-                ${mostrarDetalle(carrito)}
-                `);
+                ${ mostrarDetalle(carrito)}
+                    `);
             }
 
             let confirmarCompra = prompt("Quere confirmar la compra wacho? SI/NO");
@@ -349,7 +348,7 @@ while (accion !== "SALIR") {
 
     } else if (accion === "VACIAR") {
 
-        let confirmarVaciar = prompt("Desea eliminar todos los productos?");
+        let confirmarVaciar = prompt("Desea eliminar todos los productos? SI/NO");
 
         if (confirmarVaciar === "SI") {
 
