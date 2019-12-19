@@ -8,7 +8,8 @@ let productos = [
 let carrito = [];
 let descuento = 0.2; // 20%
 let accion = "";
-let totalSumaSubtotales = 0;
+//let totalSumaSubtotales = 0;
+let carritoSubTotal = [];
 
 const agregarProducto = (idProducto) => {
 
@@ -44,12 +45,30 @@ const mostrarDetalle = (carrito) => {
 
     let detalle = `${mostrarProductos(carrito)}
     Total de productos: ${ contarTotalDeProductos(carrito)}
-    ${totalSumaSubtotales}`;
+    Total: $ ${totalSumaSubtotales()}`;
     accion = "";
 
     return detalle;
 }
 
+const mostrarDetalleConDescuento = (carritoDeCompras) => {
+
+    // tenemos que mostrar de los productos del carrito 
+    return `${mostrarDetalle(carritoDeCompras)}
+            ${totalDescuento(carritoDeCompras)}
+            ${totalSumaSubtotales() - totalDescuento(carritoDeCompras)}`;
+}
+
+const totalSumaSubtotales = () => {
+    debugger;
+    let total = 0;
+
+    for (let i = 0; i < carritoSubTotal.length; i++) {
+        total += carritoSubTotal[i];
+    }
+
+    return total;
+}
 const contarTotalDeProductos = carritoDeCompra => carritoDeCompra.length;
 
 const subtotalDeCompra = carritoDeCompra => {
@@ -92,12 +111,15 @@ const ObtenerCantidadDeProductos = (carritoDeCompra) => {
 }
 
 const mostrarProductos = carritoDeCompra => {
+    debugger;
+
     // Declaro e inicializo las variables
     let cadena = "";
     let cadenaFinal = "";
     let cantidad = 0;
     let idActual = 0;
     let idIngresado = 0;
+    let subtotal = 0;
 
     for (let i = 0; i < carritoDeCompra.length; i++) {
 
@@ -125,37 +147,66 @@ const mostrarProductos = carritoDeCompra => {
         // Si ya me había guardado la info, la piso para actualizar la cantidad y el subtotal
         if (idActual === idIngresado) {
 
+            subtotal = cantidad * carritoDeCompra[i][2];
+
             cadena = `
 👤 NOMBRE: ${carritoDeCompra[i][1]}
 💲 PRECIO: $ ${carritoDeCompra[i][2]}
 🔢 CANTIDAD: ${cantidad}
-💰 SUBTOTAL: $ ${cantidad * carritoDeCompra[i][2]} 
+💰 SUBTOTAL: $ ${subtotal} 
 ---------------------`;
 
+            // Si no hay nada, lo agrego
+            if (carritoSubTotal.length == 0) {
+
+                let add = [carritoDeCompra[i][0], subtotal];
+                carritoSubTotal.push(add);
+
+            } else {
+
+                // Si hay algo, verifico que si es el mismo id, piso la info para actualizar el subtotal, sino, lo agrego porque es uno nuevo que tenemos que guardar.
+                for (let x = 0; x < carritoSubTotal.length; x++) {
+
+                    if (carritoSubTotal[x][0] === idIngresado) { // hay que ver bien acá porque vuelve agregar cuando no deberia, deberia pisar
+                        carritoSubTotal[x] = [idActual, subtotal];
+                        break;
+                    }
+                    else {
+                        let add = [carritoDeCompra[i][0], subtotal];
+                        carritoSubTotal.push(add);
+                    }
+
+                }
+            }
         }
     }
 
     cadenaFinal += cadena;
-
-    return cadenaFinal
+    return cadenaFinal;
 }
 
 const codigoDeDescuento = () => {
-
+    let tieneCodigo = false;
     let codigoCorrecto = "REPIOLA"
-    let tieneCodigo = prompt(`Tenes codigo de descuento?`)
-    if (tieneCodigo == "SI") {
-        let ingresaCodigo = prompt(`Ingresa aqui tu codigo:`)
+    let codigo = prompt(`Tenes codigo de descuento?`);
+
+    if (codigo == "SI") {
+
+        let ingresaCodigo = prompt(`Ingresa aqui tu codigo:`);
+
         if (ingresaCodigo == codigoCorrecto) {
-            alert(`El codigo es correcto! Tenes un 20% de descuento`)
+            alert(`El codigo es correcto! Tenes un 20% de descuento`);
+            tieneCodigo = true;
         }
         else {
-            alert(`No ingresaste un codigo correcto`)
+            alert(`No ingresaste un codigo correcto`);
         }
     }
     else {
-        alert(`Lo siento, no tienes codigo`)
+        alert(`Lo siento, no tienes codigo`);
     }
+
+    return tieneCodigo;
 }
 
 const confirmarCompra = () => {
@@ -296,11 +347,34 @@ while (accion.toUpperCase() !== "SALIR") {
 
         if (carrito.length >= 1) {
 
+            // Muestro la información del producto
             alert(`
             ${mostrarDetalle(carrito)}
             `);
 
-            accion = "";
+            // Preguntar si tiene un codigo de descuento
+            let tieneDescuento = codigoDeDescuento();
+
+            // Mostrar detalle de la compra pero con el descuento agregado
+            if (tieneDescuento) {
+
+                mostrarDetalleConDescuento(carrito);
+
+            } else {
+
+                alert(`
+                ${mostrarDetalle(carrito)}
+                `);
+            }
+
+            let confirmarCompra = prompt("Quere confirmar la compra wacho?");
+
+            if (confirmarCompra === "SI") {
+                alert("Te compraste todo chinwenwencha, nos vimos en disney");
+            } else {
+                accion = "";
+            }
+
 
         } else {
 
@@ -309,8 +383,7 @@ while (accion.toUpperCase() !== "SALIR") {
 
         }
 
-        // codigoDeDescuento()
-        // accion = "";
+
 
     } else if (accion.toUpperCase() === "ELIMINAR") {
 
