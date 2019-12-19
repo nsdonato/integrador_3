@@ -11,6 +11,7 @@ let accion = "";
 let carritoSubTotal = [];
 
 const agregarProducto = (idProducto) => {
+    debugger;
     let productoExistente = false;
     let indiceIdEnCarrito = 0;
     let subtotal = 0;
@@ -29,7 +30,7 @@ const agregarProducto = (idProducto) => {
             for (let x = 0; x < carrito.length; x++) {
                 if (idProducto === carrito[x][0]) {
                     productoEnCarrito = true;
-                    indiceIdEnCarrito = carrito[x].indexOf(idProducto);
+                    indiceIdEnCarrito = x; // carrito[x].indexOf(idProducto);
                 }
             }
 
@@ -166,6 +167,7 @@ const confirmarCompra = () => {
 }
 
 const eliminarProducto = (idProducto) => {
+    debugger;
     let repetirOperacion = ""
 
     for (let i = 0; i < carrito.length; i++) {
@@ -336,15 +338,14 @@ while (accion !== "SALIR") {
             eliminarProducto(id);
 
         } else {
-
-            alert("El carrito no tiene productos.")
+            alert("El carrito no tiene productos.");
             accion = "";
         }
 
 
     } else if (accion === "CANCELAR") {
 
-        let confirmacion = prompt("🚪🚶‍♂️¿De verdad te quere' ir?  ✔️PIOLA/❌NAH");
+        let confirmacion = prompt("🚪🚶‍♂️¿De verdad te quere' ir?  ✔️PIOLA/❌NAH").toUpperCase();
         cancelarCompra(confirmacion);
 
     } else if (accion === "VACIAR") {
@@ -358,16 +359,17 @@ while (accion !== "SALIR") {
 
         }
         else {
-            alert("La operación fue #cancelADA")
+            alert("La operación fue #cancelADA");
         }
-        accion = ""
+        accion = "";
+
     } else if (accion === "MOSTRAR") {
 
         if (carrito.length >= 1) {
-            
-            alert(`${mostrarDetalle(carrito)}
-            ${contarTotalDeProductos(carrito)}
-            ${totalSumaSubtotales(carrito)}`);
+            debugger;
+            alert(`${mostrarDetalle(carrito)}`);
+            // ${contarTotalDeProductos(carrito)}
+            // ${totalSumaSubtotales(carrito)}`);
 
         } else {
             alert("Recatate wacho todavía no compraste agregaste nada al chango")
