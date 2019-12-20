@@ -246,9 +246,7 @@ const cancelarCompra = (respuesta) => {
     }
 }
 
-const vaciarCarrito = (carritoDeCompra) => {
-    carritoDeCompra = [];
-}
+const vaciarCarrito = carritoDeCompra =>  carritoDeCompra = [];
 
 while (accion !== "SALIR") {
     if (accion === "") {
@@ -317,6 +315,7 @@ while (accion !== "SALIR") {
 
             if (confirmarCompra === "SI") {
                 alert("Te compraste todo chinwenwencha, nos vimos en disney");
+                //carrito = [];
             } else {
                 accion = "";
             }
