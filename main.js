@@ -247,7 +247,7 @@ const cancelarCompra = (respuesta) => {
 }
 
 const vaciarCarrito = (carritoDeCompra) => {
-    carritoDeCompra = [];
+    carrito = [];
 }
 
 while (accion !== "SALIR") {
@@ -317,6 +317,8 @@ while (accion !== "SALIR") {
 
             if (confirmarCompra === "SI") {
                 alert("Te compraste todo chinwenwencha, nos vimos en disney");
+                vaciarCarrito(carrito)
+                console.log(carrito)
             } else {
                 accion = "";
             }
@@ -353,6 +355,8 @@ while (accion !== "SALIR") {
         if (confirmarVaciar === "SI") {
 
             vaciarCarrito(carrito);
+            console.log(carrito)
+
             alert("Se eliminaron lo´ producto´ wachen");
 
         }
