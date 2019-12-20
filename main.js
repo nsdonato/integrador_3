@@ -1,4 +1,4 @@
-let productos = [
+const PRODUCTOS = [
     [1, "Notebook Lenobo S400", 100, true],
     [2, "Celular Moto Trola", 135, false],
     [3, "Smart TV Filips 43", 190, true],
@@ -18,9 +18,9 @@ const agregarProducto = idProducto => {
     let productoEnCarrito = false;
     let cantidadAAgregar = 0;
 
-    for (let i = 0; i < productos.length; i++) {
+    for (let i = 0; i < PRODUCTOS.length; i++) {
 
-        if (idProducto === productos[i][0]) {
+        if (idProducto === PRODUCTOS[i][0]) {
             productoExistente = true;
 
             cantidadAAgregar = Number(prompt("➕ ¿cuanto quere agregar wachen?"));
@@ -35,8 +35,8 @@ const agregarProducto = idProducto => {
 
             if (!productoEnCarrito) {
 
-                subtotal = cantidadAAgregar * productos[i][2];
-                producto = [productos[i][0], productos[i][1], cantidadAAgregar, subtotal, productos[i][2], productos[i][3]];
+                subtotal = cantidadAAgregar * PRODUCTOS[i][2];
+                producto = [PRODUCTOS[i][0], PRODUCTOS[i][1], cantidadAAgregar, subtotal, PRODUCTOS[i][2], PRODUCTOS[i][3]];
                 carrito.push(producto);
 
             } else {
@@ -105,7 +105,7 @@ const totalDescuento = carritoDeCompra => {
         // el indice 5, es donde esta si tiene o no descuento
         if (carritoDeCompra[i][5]) {
             // en el indice 2, esta el precio
-            subTotal += carritoDeCompra[i][4];
+            subTotal += carritoDeCompra[i][3];
         }
     }
 
@@ -185,7 +185,7 @@ const eliminarProducto = idProducto => {
             ${carrito[indiceProductoEncontrado][1]}
             ${carrito[indiceProductoEncontrado][2]}
            ¿Desea confirmar? 
-            ✔️PIOLA/❌NAH`)
+            ✔️PIOLA/❌NAH`).toUpperCase()
 
         //Si la respuesta es afirmativa debe eliminar el producto del carrito y mostrar un mensaje de éxito
         if (datosDelProducto === "PIOLA") {
@@ -195,7 +195,7 @@ const eliminarProducto = idProducto => {
             alert("✔️ La operación fue realizada éxitosamente");
 
             repetirOperacion = prompt(`Quere' eliminar algo más? 
-               ✔️PIOLA/❌NAH`);
+               ✔️PIOLA/❌NAH`).toUpperCase();
 
             if (repetirOperacion === "NAH") {
 
@@ -265,11 +265,11 @@ while (accion !== "SALIR") {
 
         let cadena = "";
         // Mostramos todos los productos
-        for (let i = 0; i < productos.length; i++) {
+        for (let i = 0; i < PRODUCTOS.length; i++) {
             cadena += `
-🆔 ID: ${productos[i][0]} 
-👤 NOMBRE: ${productos[i][1]}
-💲 PRECIO: ${productos[i][2]}
+🆔 ID: ${PRODUCTOS[i][0]} 
+👤 NOMBRE: ${PRODUCTOS[i][1]}
+💲 PRECIO: ${PRODUCTOS[i][2]}
 ---------------------
 `;
         }
@@ -277,7 +277,7 @@ while (accion !== "SALIR") {
         let id = Number(prompt("🙏🏻Por favor ingrese el 🆔 del producto a agregar al carrito"));
         agregarProducto(id);
 
-        let confirmacion = prompt("💸 quere volve a compra? ✔️PIOLA / ❌NAH");
+        let confirmacion = prompt("💸 quere volve a compra? ✔️PIOLA / ❌NAH").toUpperCase();
 
         if (confirmacion == "PIOLA") {
             accion = "AGREGAR";
@@ -309,7 +309,7 @@ while (accion !== "SALIR") {
 
     } else if (accion === "VACIAR") {
 
-        let confirmarVaciar = prompt("Desea eliminar todos los productos? SI/NO");
+        let confirmarVaciar = prompt("Desea eliminar todos los productos? SI/NO").toUpperCase();
 
         if (confirmarVaciar === "SI") {
 
@@ -344,12 +344,13 @@ while (accion !== "SALIR") {
                     `);
             }
 
-            let confirmarCompra = prompt("Quere confirmar la compra wacho? SI/NO");
+            let confirmarCompra = prompt("Quere confirmar la compra wacho? SI/NO").toUpperCase();
 
             if (confirmarCompra === "SI") {
                 alert("Te compraste todo chinwenwencha, nos vimos en disney");
                 vaciarCarrito(carrito)
             } else {
+                alert(`Cancelaste la compra, gil`)
                 accion = "";
             }
 
@@ -365,5 +366,9 @@ while (accion !== "SALIR") {
         let confirmacion = prompt("🚪🚶‍♂️¿De verdad te quere' ir?  ✔️PIOLA/❌NAH").toUpperCase();
         cancelarCompra(confirmacion);
 
-     } 
+    }
+    else {
+        alert(`La opcion no es correcta wachin`);
+        accion = "";
+    } 
 }
