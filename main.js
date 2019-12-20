@@ -10,7 +10,7 @@ let descuento = 0.2; // 20%
 let accion = "";
 let carritoSubTotal = [];
 
-const agregarProducto = (idProducto) => {
+const agregarProducto = idProducto => {
     let productoExistente = false;
     let indiceIdEnCarrito = 0;
     let subtotal = 0;
@@ -58,7 +58,7 @@ const agregarProducto = (idProducto) => {
     }
 }
 
-const mostrarDetalle = (carrito) => {
+const mostrarDetalle = carrito => {
     let detalle = `${mostrarProductos(carrito)}
 Total de productos: ${ contarTotalDeProductos(carrito)}
 Total: $ ${totalSumaSubtotales(carrito)}`;
@@ -112,7 +112,7 @@ const totalDescuento = carritoDeCompra => {
     return (subTotal * descuento).toFixed(2);
 }
 
-const contarTotalDeProductos = (carritoDeCompra) => {
+const contarTotalDeProductos = carritoDeCompra => {
     let cantidad = 0;
 
     for (let i = 0; i < carritoDeCompra.length; i++) {
@@ -160,11 +160,7 @@ const codigoDeDescuento = () => {
     return tieneCodigo;
 }
 
-const confirmarCompra = () => {
-
-}
-
-const eliminarProducto = (idProducto) => {
+const eliminarProducto = idProducto => {
     let repetirOperacion = ""
     let encontreProducto = false;
     let indiceProductoEncontrado = 0;
@@ -235,7 +231,7 @@ const eliminarProducto = (idProducto) => {
 }
 
 
-const cancelarCompra = (respuesta) => {
+const cancelarCompra = respuesta => {
 
     if (respuesta == "PIOLA") {
         alert("Chau wacho")
@@ -246,7 +242,7 @@ const cancelarCompra = (respuesta) => {
     }
 }
 
-const vaciarCarrito = carritoDeCompra =>  carrito = [];
+const vaciarCarrito = () =>  carrito = [];
 
 while (accion !== "SALIR") {
     if (accion === "") {
@@ -289,6 +285,43 @@ while (accion !== "SALIR") {
             accion = "";
         }
 
+    } else if (accion === "MOSTRAR") {
+
+        if (carrito.length >= 1) {
+            alert(`${mostrarDetalle(carrito)}`);
+
+        } else {
+            alert("Recatate wacho todavía no agregaste nada al chango")
+        }
+
+        accion = "";
+    } else if (accion === "ELIMINAR") {
+
+        if (carrito.length >= 1) {
+
+            let id = Number(prompt("🙏🏻Por favor ingresa el 🆔 del producto que quere' eliminar wacho"));
+            eliminarProducto(id);
+
+        } else {
+            alert("El carrito no tiene productos.");
+            accion = "";
+        }
+
+    } else if (accion === "VACIAR") {
+
+        let confirmarVaciar = prompt("Desea eliminar todos los productos? SI/NO");
+
+        if (confirmarVaciar === "SI") {
+
+            vaciarCarrito(carrito);
+            alert("Se eliminaron lo´ producto´ wachen");
+
+        }
+        else {
+            alert("La operación fue #cancelADA");
+        }
+        accion = "";
+
     } else if (accion === `CONFIRMAR`) {
 
         if (carrito.length >= 1) {
@@ -327,50 +360,10 @@ while (accion !== "SALIR") {
 
         }
 
-    } else if (accion === "ELIMINAR") {
-
-        if (carrito.length >= 1) {
-
-            let id = Number(prompt("🙏🏻Por favor ingresa el 🆔 del producto que quere' eliminar wacho"));
-            eliminarProducto(id);
-
-        } else {
-            alert("El carrito no tiene productos.");
-            accion = "";
-        }
-
-
-    } else if (accion === "CANCELAR") {
+    }  else if (accion === "CANCELAR") {
 
         let confirmacion = prompt("🚪🚶‍♂️¿De verdad te quere' ir?  ✔️PIOLA/❌NAH").toUpperCase();
         cancelarCompra(confirmacion);
 
-    } else if (accion === "VACIAR") {
-
-        let confirmarVaciar = prompt("Desea eliminar todos los productos? SI/NO");
-
-        if (confirmarVaciar === "SI") {
-
-            vaciarCarrito(carrito);
-            alert("Se eliminaron lo´ producto´ wachen");
-
-        }
-        else {
-            alert("La operación fue #cancelADA");
-        }
-        accion = "";
-
-    } else if (accion === "MOSTRAR") {
-
-        if (carrito.length >= 1) {
-            alert(`${mostrarDetalle(carrito)}`);
-
-        } else {
-            alert("Recatate wacho todavía no agregaste nada al chango")
-        }
-
-        accion = "";
-    } else {
-        accion = "";
-    }
+     } 
 }
