@@ -1,3 +1,10 @@
+// Chicas, les pido disculpas por la tardanza en la correccion, no habia visto
+// que esto ya estaba terminado
+// Quiero felicitarlas por un gran trabajo, usaron muy bien todos los temas vistos, 
+// esta impecable el manejo de funciones, parametros y return
+// Tengo poco para comentar porque todo funciona a la perfeccion
+// felicitaciones!
+
 const PRODUCTOS = [
     [1, "Notebook Lenobo S400", 100, true],
     [2, "Celular Moto Trola", 135, false],
@@ -6,6 +13,8 @@ const PRODUCTOS = [
 ];
 //                                                0,    1  ,     2   ,    3    ,    4  ,    5
 let carrito = []; // Nuestro carrito va a tener: id, nombre, cantidad, subtotal, precio, descuento
+
+// el descuento deberia ser const, ya que no cambia
 let descuento = 0.2; // 20%
 let accion = "";
 let carritoSubTotal = [];
@@ -23,6 +32,8 @@ const agregarProducto = idProducto => {
         if (idProducto === PRODUCTOS[i][0]) {
             productoExistente = true;
 
+            // cuidado aca porque si agrego algo que no es numero, queda como NaN, 
+            // y eso me rompe tanto al mostrar producto como al calcular los totales
             cantidadAAgregar = Number(prompt("➕ ¿cuanto quere agregar wachen?"));
 
             // Verifico si el id de producto ya existe en el carrito, si existe me quedo con el id
